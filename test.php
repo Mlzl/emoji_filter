@@ -6,10 +6,11 @@
 
 require "src/EmojiFilter.php";
 
+//爬取emoji资料库
 //\Cleaner\EmojiFilter::spiderEmojiUnicodeList();
 
-//var_dump(\Cleaner\EmojiFilter::getConfig());
+//过滤emoji表情
+//$str = '8™1🌘↗2🔡🕙⌚3😭4🔶🙌5✅6➖7🚀🚒🚫🚾🆒🈂🈹‼⏪▶♈♣⚪🍮🍺🐱📌📟📫鸶钰';
+//echo \Cleaner\EmojiFilter::filterEmoji($str);
+//expect:81234567鸶钰
 
-
-$str = '8™1🌘↗2🔡🕙⌚3😭4🔶🙌5✅6➖7🚀🚒🚫🚾🆒🈂🈹‼⏪▶♈♣⚪🍮🍺🐱📌📟📫鸶钰';
-echo \Cleaner\EmojiFilter::filterEmoji($str);

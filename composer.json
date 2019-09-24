@@ -1,0 +1,13 @@
+{
+    "name": "ambi/emoji_filter",
+    "description": "a library for emoji filter",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ambi",
+            "email": "mlzl1069163403@gmail.com"
+        }
+    ],
+    "require": {}
+}
