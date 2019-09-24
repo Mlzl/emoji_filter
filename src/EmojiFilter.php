@@ -160,6 +160,9 @@ class EmojiFilter
             $f = $range[0];
             $s = isset($range[1]) ? $range[1] : $range[0];
             for (; $f <= $s; $f++) {
+                if ($f < 256) {
+                    continue;
+                }
                 $c[$f] = 1;
             }
         }
