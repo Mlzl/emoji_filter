@@ -34,8 +34,6 @@ class EmojiFilter
         $list = self::mergeEmojiList($list);
         $json = json_encode($list);
         file_put_contents(self::getConfigPath(), $json);
-        $total = self::statistic($list);
-        echo "spider emoji total:{$total}";
     }
 
     /**
@@ -45,37 +43,30 @@ class EmojiFilter
      */
     public static function mergeEmojiList($list)
     {
-        $func = function ($item, &$list, $len) {
-            $nextPoint = $item + 1;
-            for ($i = 0; $i < $len; $i++) {
-                if (!isset($list[$i])) {
-                    continue;
+        $aggList = self::duplicate($list);
+        sort($aggList);
+        $newList = [];
+        for ($i = 0; $i < count($aggList); $i++) {
+            $start = $aggList[$i];
+            $next = $start + 1;
+            $isFind = false;
+            $item = [];
+            for ($j = $i + 1; $j < count($aggList); $j++) {
+                if ($next != $aggList[$j]) {
+                    break;
                 }
-                $f = $list[$i][0];
-                $s = isset($list[$i][1]) ? $list[$i][1] : $list[$i][0];
-                if ($nextPoint == $f) {
-                    unset($list[$i]);
-                    return $s;
-                }
+                $isFind = true;
+                $next = $aggList[$j] + 1;
             }
-            return false;
-        };
-        $len = count($list);
-        for ($i = 0; $i < $len; $i++) {
-            if (!isset($list[$i])) {
-                continue;
+            $item[] = $start;
+            if ($isFind) {
+                $item[] = $next - 1;
+                $i = $j;
+                $i--;
             }
-            $s = isset($list[$i][1]) ? $list[$i][1] : $list[$i][0];
-            $mergePoint = false;
-            while ($tmpPoint = $func($s, $list, $len)) {
-                $mergePoint = $tmpPoint;
-                $s = $mergePoint;
-            };
-            if ($mergePoint) {
-                $list[$i][1] = $mergePoint;
-            }
+            $newList[] = $item;
         }
-        return array_values($list);
+        return $newList;
     }
 
     /**
@@ -162,7 +153,7 @@ class EmojiFilter
         return $afterStr;
     }
 
-    public static function statistic($list)
+    public static function duplicate($list)
     {
         $c = [];
         foreach ($list as $range) {
@@ -172,7 +163,7 @@ class EmojiFilter
                 $c[$f] = 1;
             }
         }
-        return count($c);
+        return array_keys($c);
     }
 
     private static function getConfigPath()

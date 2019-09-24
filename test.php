@@ -14,3 +14,9 @@ require "src/EmojiFilter.php";
 //echo \Cleaner\EmojiFilter::filterEmoji($str);
 //expect:81234567鸶钰
 
+$config = \Cleaner\EmojiFilter::getConfig();
+//var_dump(count($config));
+var_dump(count(\Cleaner\EmojiFilter::duplicate($config)));
+//$config = \Cleaner\EmojiFilter::mergeEmojiList($config);
+//var_dump(count(\Cleaner\EmojiFilter::duplicate($config)));
+//var_dump(count($config));
